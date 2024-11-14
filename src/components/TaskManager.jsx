@@ -2,7 +2,19 @@ import React, { useState, useEffect } from 'react';
 import Task from './Task';
 
 const TaskManager = () => {
-    const [tasks, setTasks] = useState(localstorage.getitem("tasks"));
+    // const [tasks, setTasks] = useState(localStorage.getItem("tasks")===null?[]:localStorage.getItem("tasks"));
+    const [tasks, setTasks] = useState(() => {
+        // Retrieve item from localStorage or set to an empty array if key doesn't exist
+        const savedTasks = localStorage.getItem('tasks');
+        let temp = savedTasks ? JSON.parse(savedTasks) : [];
+        const today = new Date().toISOString().split("T")[0];
+        temp = temp.map((task) =>
+            task.status === 'incomplete' && task.dueDate < today
+                ? { ...task, status: 'overdue' }
+                : task
+        )
+        return temp;
+      });
     const [newTask, setNewTask] = useState({
         title: '',
         description: '',
@@ -28,11 +40,11 @@ const TaskManager = () => {
         const storedPriorityFilter = localStorage.getItem('priorityFilter');
         if (storedPriorityFilter) setPriorityFilter(storedPriorityFilter);
     }, []);
-    if (localStorage.getItem("key") !== null) {
-        console.log("Key exists in localStorage");
-    } else {
-        console.log("Key does not exist in localStorage");
-    }
+    // if (localStorage.getItem("key") !== null) {
+    //     console.log("Key exists in localStorage");
+    // } else {
+    //     console.log("Key does not exist in localStorage");
+    // }
     useEffect(() => {
         localStorage.setItem('tasks', JSON.stringify(tasks));
     }, [tasks]);
@@ -49,21 +61,27 @@ const TaskManager = () => {
         localStorage.setItem('priorityFilter', priorityFilter);
     }, [priorityFilter]);
 
-    useEffect(() => {
-        const today = new Date().toISOString().split("T")[0];
-        setTasks((tasks) =>
-            tasks.map((task) =>
-                task.status === 'incomplete' && task.dueDate < today
-                    ? { ...task, status: 'overdue' }
-                    : task
-            )
-        );
-    }, [tasks]);
+    // useEffect(() => {
+    //     const today = new Date().toISOString().split("T")[0];
+    //     setTasks((tasks) =>
+    //         Array.isArray(tasks) && tasks.map((task) =>
+    //             task.status === 'incomplete' && task.dueDate < today
+    //                 ? { ...task, status: 'overdue' }
+    //                 : task
+    //         )
+    //     );
+    // }, [tasks]);
 
     const addTask = () => {
+        const today = new Date().toISOString().split("T")[0];
         if (newTask.title.trim() && newTask.description.trim()) {
             const newTaskObj = { id: Date.now(), ...newTask };
+            if(newTaskObj.dueDate < today)newTaskObj.status = 'overdue'
             setTasks([...tasks, newTaskObj]);
+            // setTasks(...(tasks||[]), newTaskObj);
+            // console.log(tasks, "abc");
+            // console.log(newTaskObj);
+            
             setNewTask({ title: '', description: '', dueDate: '', priority: 'Low', status: 'incomplete' });
         }
     };
@@ -82,13 +100,16 @@ const TaskManager = () => {
             task.id === id ? { ...task, status: 'completed' } : task
         ));
     };
-
-    const filteredTasks = tasks
+    let filteredTasks = [];
+    // useEffect(() => {
+        filteredTasks = Array.isArray(tasks) && tasks
         .filter((task) => task.status === filter)
         .filter((task) => task.title.toLowerCase().includes(searchQuery.toLowerCase()))
         .filter((task) => priorityFilter === 'All' || task.priority === priorityFilter)
         .sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
-
+    // }, [tasks])
+    
+    
     return (
         <div className="grid grid-cols-12 min-h-screen bg-gray-100">
             {/* Left Sidebar */}
@@ -175,7 +196,7 @@ const TaskManager = () => {
 
                 {/* Task List */}
                 <div className="grid gap-4">
-                    {filteredTasks.map((task) => (
+                    {Array.isArray(filteredTasks) && filteredTasks.map((task) => (
                         <Task
                             key={task.id}
                             task={task}
