@@ -120,7 +120,7 @@ const TaskManager = () => {
         overdue: "Overdue Tasks",
     };
     return (
-        <div className="grid grid-cols-12 min-h-screen bg-gray-100">
+        <div className="grid grid-cols-12 min-h-screen bg-[#FFF6E3]">
             {/* Left Sidebar */}
             <aside className="col-span-3 p-6 bg-[#d3f4e6] shadow-md space-y-8">
                 <h2 className="text-4xl font-serif text-center">Task Manager</h2>
