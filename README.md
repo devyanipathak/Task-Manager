@@ -1,8 +1,35 @@
-# React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Task Manager
 
-Currently, two official plugins are available:
+An application or tool that helps you organize and keep track of tasks. It allows you to add, edit, and prioritize tasks, set deadlines, and mark tasks as complete once finished. It helps you stay organized and manage your time more effectively by keeping all your tasks in one place.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Tech Stack
+
+**Client:** React, TailwindCSS
+
+**Server:** LocalStorage
+
+
+## Features
+
+  - Task Creation and Editing
+  - Task Filtering
+  - Search Functionality
+  - Status-Responsive Display
+  - Persistent Storage
+  - Dynamic Button Styles
+  - Task Completion
+  - Due Date Validation
+
+  
+
+## Installation
+
+Install dependecies and then run project
+
+```bash
+  npm install
+  npm run dev
+```
+    
+
