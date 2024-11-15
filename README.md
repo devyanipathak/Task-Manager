@@ -1,27 +1,30 @@
 
 # Task Manager
+## Live Link: https://task-manager-blond-phi.vercel.app/
+## Objective:
+Develop a simple task management app that focuses on essential features and a straightforward, user-friendly interface.
 
-An application or tool that helps you organize and keep track of tasks. It allows you to add, edit, and prioritize tasks, set deadlines, and mark tasks as complete once finished. It helps you stay organized and manage your time more effectively by keeping all your tasks in one place.
-
-## Tech Stack
-
-**Client:** React, TailwindCSS
-
-**Server:** LocalStorage
-
-
-## Features
-
+## Core Features
+  #### Dashboard:
+ Upon accessing the application, users will be presented with a simple dashboard that displays a list of tasks. The dashboard will include sections for:
+    - Incomplete Task
+    - Completed Task
+    - Overdue Task
+  #### Task Management:
   - Task Creation and Editing
   - Task Filtering
   - Search Functionality
+
+  #### Few more features:
   - Status-Responsive Display
   - Persistent Storage
   - Dynamic Button Styles
   - Task Completion
   - Due Date Validation
 
-  
+## Technical Requirements:
+**Frontend** React, TailwindCSS
+**Local Storage**
 
 ## Installation
 
