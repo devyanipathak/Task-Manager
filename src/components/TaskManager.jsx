@@ -14,7 +14,7 @@ const TaskManager = () => {
                 : task
         )
         return temp;
-      });
+    });
     const [newTask, setNewTask] = useState({
         title: '',
         description: '',
@@ -23,9 +23,10 @@ const TaskManager = () => {
         status: 'incomplete',
     });
     const [editingTaskId, setEditingTaskId] = useState(null);
-    const [filter, setFilter] = useState('incomplete'); 
+    const [filter, setFilter] = useState('incomplete');
     const [searchQuery, setSearchQuery] = useState('');
     const [priorityFilter, setPriorityFilter] = useState('All');
+    const [active, setActive] = useState('All');
 
     useEffect(() => {
         const storedTasks = JSON.parse(localStorage.getItem('tasks'));
@@ -38,7 +39,10 @@ const TaskManager = () => {
         if (storedSearchQuery) setSearchQuery(storedSearchQuery);
 
         const storedPriorityFilter = localStorage.getItem('priorityFilter');
-        if (storedPriorityFilter) setPriorityFilter(storedPriorityFilter);
+        if (storedPriorityFilter) {
+            setPriorityFilter(storedPriorityFilter);
+            // setActive(storedPriorityFilter)
+        }
     }, []);
     // if (localStorage.getItem("key") !== null) {
     //     console.log("Key exists in localStorage");
@@ -59,6 +63,7 @@ const TaskManager = () => {
 
     useEffect(() => {
         localStorage.setItem('priorityFilter', priorityFilter);
+        // setActive(priorityFilter)
     }, [priorityFilter]);
 
     // useEffect(() => {
@@ -76,12 +81,12 @@ const TaskManager = () => {
         const today = new Date().toISOString().split("T")[0];
         if (newTask.title.trim() && newTask.description.trim()) {
             const newTaskObj = { id: Date.now(), ...newTask };
-            if(newTaskObj.dueDate < today)newTaskObj.status = 'overdue'
+            if (newTaskObj.dueDate < today) newTaskObj.status = 'overdue'
             setTasks([...tasks, newTaskObj]);
             // setTasks(...(tasks||[]), newTaskObj);
             // console.log(tasks, "abc");
             // console.log(newTaskObj);
-            
+
             setNewTask({ title: '', description: '', dueDate: '', priority: 'Low', status: 'incomplete' });
         }
     };
@@ -102,14 +107,18 @@ const TaskManager = () => {
     };
     let filteredTasks = [];
     // useEffect(() => {
-        filteredTasks = Array.isArray(tasks) && tasks
+    filteredTasks = Array.isArray(tasks) && tasks
         .filter((task) => task.status === filter)
         .filter((task) => task.title.toLowerCase().includes(searchQuery.toLowerCase()))
         .filter((task) => priorityFilter === 'All' || task.priority === priorityFilter)
         .sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
     // }, [tasks])
-    
-    
+
+    const filterHeader = {
+        incomplete: "Incomplete Tasks",
+        completed: "Completed Tasks",
+        overdue: "Overdue Tasks",
+    };
     return (
         <div className="grid grid-cols-12 min-h-screen bg-gray-100">
             {/* Left Sidebar */}
@@ -179,6 +188,11 @@ const TaskManager = () => {
 
             {/* Right Side - Task List */}
             <main className="col-span-9 p-6">
+                {/* Display Header for Selected Filter */}
+                <h3 className="text-3xl font-bold mb-4">{filterHeader[filter]}</h3>
+                {/* <h1 className="text-3xl font-bold mb-4">
+                    {filter.charAt(0).toUpperCase() + filter.slice(1)}
+                </h1> */}
                 {/* Search and Priority Filters */}
                 <div className="mb-6 flex space-x-4">
                     <input
@@ -188,10 +202,34 @@ const TaskManager = () => {
                         placeholder="Search by title"
                         className="flex-grow px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
-                    <button onClick={() => setPriorityFilter('High')} className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600">High</button>
-                    <button onClick={() => setPriorityFilter('Medium')} className="px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600">Medium</button>
-                    <button onClick={() => setPriorityFilter('Low')} className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600">Low</button>
-                    <button onClick={() => setPriorityFilter('All')} className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600">All</button>
+                    <button
+                        onClick={() => setPriorityFilter('High')}
+                        className={`px-4 py-2 rounded-lg text-white ${priorityFilter === 'High' ? 'bg-gray-600 border-4' : 'bg-red-500'
+                            } hover:bg-red-600`}
+                    >
+                        High
+                    </button>
+                    <button
+                        onClick={() => setPriorityFilter('Medium')}
+                        className={`px-4 py-2 rounded-lg text-white ${priorityFilter === 'Medium' ? 'bg-gray-600 border-4' : 'bg-yellow-500'
+                            } hover:bg-yellow-600`}
+                    >
+                        Medium
+                    </button>
+                    <button
+                        onClick={() => setPriorityFilter('Low')}
+                        className={`px-4 py-2 rounded-lg text-white ${priorityFilter === 'Low' ? 'bg-gray-600 border-4' : 'bg-green-500'
+                            } hover:bg-green-600`}
+                    >
+                        Low
+                    </button>
+                    <button
+                        onClick={() => setPriorityFilter('All')}
+                        className={`px-4 py-2 rounded-lg text-white ${priorityFilter === 'All' ? 'bg-gray-600 border-4' : 'bg-blue-500'
+                            } hover:bg-gray-600`}
+                    >
+                        All
+                    </button>
                 </div>
 
                 {/* Task List */}

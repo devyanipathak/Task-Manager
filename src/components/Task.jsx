@@ -8,8 +8,15 @@ const Task = ({ task, onDelete, onUpdate, onComplete, isEditing, setEditingTaskI
         setEditingTaskId(null);
     };
 
+    // Determine background color based on task status
+    const backgroundColor = task.status === 'incomplete'
+        ? '#AEC6CF'
+        : task.status === 'completed'
+        ? '#FFEE8C'
+        : '#FFDACA';
+
     return (
-        <div className="p-4 bg-white border rounded-lg shadow-md">
+        <div className="p-4 border rounded-lg shadow-md" style={{ backgroundColor }}>
             {isEditing && isEditable ? (
                 <>
                     <input
