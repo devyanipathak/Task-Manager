@@ -12,7 +12,7 @@ For instance, useState is great for keeping track of task data, and useEffect al
 
 Here’s how I've applied useState and useEffect in my task management app:
 
-## Code snippet:
+#### Code snippet:
 useState hook:
 ```bash
   const [newTask, setNewTask] = useState({
