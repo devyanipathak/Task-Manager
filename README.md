@@ -7,9 +7,9 @@ Develop a simple task management app that focuses on essential features and a st
 ## Core Features
   #### Dashboard:
  Upon accessing the application, users will be presented with a simple dashboard that displays a list of tasks. The dashboard will include sections for:
-    - Incomplete Task
-    - Completed Task
-    - Overdue Task
+  - Incomplete Task
+  - Completed Task
+  - Overdue Task
   #### Task Management:
   - Task Creation and Editing
   - Task Filtering
