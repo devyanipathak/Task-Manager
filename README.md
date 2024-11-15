@@ -16,6 +16,7 @@ Develop a simple task management app that focuses on essential features and a st
   - Search Functionality
 
   #### Few more features:
+  - Tasks sorted in chronological order
   - Status-Responsive Display
   - Persistent Storage
   - Dynamic Button Styles
